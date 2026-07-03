@@ -17,7 +17,7 @@
    ============================================================ */
 
 /* ---------- STAGE 1: the four button operations ---------- */
-
+console.log("Stage 1-1");
 // ----- 1. add -----
 // Write `add(a, b)` that RETURNS a + b.
 // your code here
@@ -33,29 +33,53 @@ console.log(add(10, 0));
 // TEST 1:  add(2, 3)    ->  5
 // TEST 2:  add(-1, 1)   ->  0
 // TEST 3:  add(10, 0)   ->  10
-
+console.log("Stage 1-2");
 // ----- 2. subtract -----
 // Write `subtract(a, b)` that RETURNS a - b.
 // your code here
+
+function subtract(a, b) {
+  return a - b;
+}
+console.log(subtract(5, 3));
+console.log(subtract(0, 4));
+console.log(subtract(9, 9));
 
 // console.log(subtract(5, 3));
 // TEST 1:  subtract(5, 3)   ->  2
 // TEST 2:  subtract(0, 4)   ->  -4
 // TEST 3:  subtract(9, 9)   ->  0
-
+console.log("Stage 1-3");
 // ----- 3. multiply -----
 // Write `multiply(a, b)` that RETURNS a * b.
 // your code here
+
+function multiply(a, b) {
+  return a * b;
+}
+console.log(multiply(4, 3));
+console.log(multiply(7, 0));
+console.log(multiply(-2, 5));
 
 // console.log(multiply(4, 3));
 // TEST 1:  multiply(4, 3)   ->  12
 // TEST 2:  multiply(7, 0)   ->  0
 // TEST 3:  multiply(-2, 5)  ->  -10
-
+console.log("Stage 1-4");
 // ----- 4. divide (guard the zero) -----
 // Write `divide(a, b)` that RETURNS a / b â€” BUT a real calculator must not
 // crash on divide-by-zero. When b is 0, RETURN the string "Error".
 // your code here
+
+function divide(a, b) {
+  if (b === 0) {
+    return "Error";
+  }
+  return a / b;
+}
+console.log(divide(10, 2));
+console.log(divide(7, 0));
+console.log(divide(9, 3));
 
 // console.log(divide(10, 2));
 // TEST 1:  divide(10, 2)   ->  5
@@ -63,11 +87,18 @@ console.log(add(10, 0));
 // TEST 3:  divide(9, 3)    ->  3
 
 /* ---------- STAGE 2: recognizing operators ---------- */
-
+console.log("Stage 2-5");
 // ----- 5. isOperator -----
 // Write `isOperator(token)` that RETURNS true when token is one of
 // "+", "-", "*", "/".
 // your code here
+
+function isOperator(token) {
+  return token === "+" || token === "-" || token === "*" || token === "/";
+}
+console.log(isOperator("+"));
+console.log(isOperator("/"));
+console.log(isOperator("9"));
 
 // console.log(isOperator("+"));
 // TEST 1:  isOperator("+")  ->  true
@@ -75,12 +106,29 @@ console.log(add(10, 0));
 // TEST 3:  isOperator("9")  ->  false
 
 /* ---------- STAGE 3: the heart â€” apply ONE operation ---------- */
-
+console.log("Stage 3-6");
 // ----- 6. applyOp (the dispatcher) -----
 // Write `applyOp(a, op, b)` that looks at op and RETURNS the right result by
 // CALLING add / subtract / multiply / divide. If op is not a known operator,
 // RETURN "Error".
 // your code here
+
+function applyOp(a, op, b) {
+  if (op === "+") {
+    return add(a, b);
+  } else if (op === "-") {
+    return subtract(a, b);
+  } else if (op === "*") {
+    return multiply(a, b);
+  } else if (op === "/") {
+    return divide(a, b);
+  } else {
+    return "Error";
+  }
+}
+console.log(applyOp(6, "*", 7));
+console.log(applyOp(8, "/", 0));
+console.log(applyOp(10, "?", 2));
 
 // console.log(applyOp(6, "*", 7));
 // TEST 1:  applyOp(6, "*", 7)   ->  42
@@ -88,11 +136,18 @@ console.log(add(10, 0));
 // TEST 3:  applyOp(10, "?", 2)  ->  "Error"
 
 /* ---------- STAGE 4: reading what the user typed ---------- */
-
+console.log("Stage 4-7");
 // ----- 7. tokenize -----
 // A calculator gets a flat string like "3 + 4". Write `tokenize(expr)` that
 // RETURNS an array of its pieces split on spaces: ["3", "+", "4"].
 // your code here
+
+function tokenize(expr) {
+  return expr.split(" ");
+}
+console.log(tokenize("3 + 4"));
+console.log(tokenize("12 * 5"));
+console.log(tokenize("8 - 2 + 1"));
 
 // console.log(tokenize("3 + 4"));
 // TEST 1:  tokenize("3 + 4")        ->  ["3", "+", "4"]
@@ -100,11 +155,22 @@ console.log(add(10, 0));
 // TEST 3:  tokenize("8 - 2 + 1")    ->  ["8", "-", "2", "+", "1"]
 
 /* ---------- STAGE 5: compute a single "a op b" string ---------- */
-
+console.log("Stage 5-8");
 // ----- 8. calcOne -----
 // Write `calcOne(expr)` for a 3-token expression like "3 + 4". Tokenize it,
 // turn the two ends into numbers, and RETURN applyOp(left, op, right).
 // your code here
+
+function calcOne(expr) {
+  const tokens = tokenize(expr);
+  const left = Number(tokens[0]);
+  const op = tokens[1];
+  const right = Number(tokens[2]);
+  return applyOp(left, op, right);
+}
+console.log(calcOne("3 + 4"));
+console.log(calcOne("10 / 0"));
+console.log(calcOne("6 * 7"));
 
 // console.log(calcOne("3 + 4"));
 // TEST 1:  calcOne("3 + 4")    ->  7
@@ -112,7 +178,7 @@ console.log(add(10, 0));
 // TEST 3:  calcOne("6 * 7")    ->  42
 
 /* ---------- STAGE 6: the full engine â€” chain left to right ---------- */
-
+console.log("Stage 6-9");
 // ----- 9. calculate (the MVP) -----
 // Write `calculate(expr)` for any length like "8 - 2 + 1" or "2 * 3 * 4".
 // Tokenize it. Start the running result at the first number. Then walk the
@@ -122,37 +188,75 @@ console.log(add(10, 0));
 // If any step returns "Error", RETURN "Error".
 // your code here
 
+function calculate(expr) {
+  const tokens = tokenize(expr);
+  let result = Number(tokens[0]);
+  for (let i = 1; i < tokens.length; i += 2) {
+    const op = tokens[i];
+    const nextNum = Number(tokens[i + 1]);
+    result = applyOp(result, op, nextNum);
+    if (result === "Error") {
+      return "Error";
+    }
+  }
+  return result;
+}
+console.log(calculate("8 - 2 + 1"));
+console.log(calculate("2 * 3 * 4"));
+console.log(calculate("10 / 0 + 5"));
+
 // console.log(calculate("8 - 2 + 1"));
 // TEST 1:  calculate("8 - 2 + 1")   ->  7
 // TEST 2:  calculate("2 * 3 * 4")   ->  24
 // TEST 3:  calculate("10 / 0 + 5")  ->  "Error"
 
 /* ---------- STAGE 7: the polish a real calculator needs ---------- */
-
+console.log("Stage 7-10");
 // ----- 10. round2 (money-friendly display) -----
 // Floating point makes 0.1 + 0.2 ugly. Write `round2(n)` that RETURNS n
 // rounded to 2 decimal places as a NUMBER. (Math.round(n * 100) / 100.)
 // your code here
 
+function round2(n) {
+  return Math.round(n * 100) / 100;
+}
+console.log(round2(5.005));
+console.log(round2(3));
+console.log(round2(2.71828));
+
 // console.log(round2(5.005));
 // TEST 1:  round2(5.005)        ->  5.01
 // TEST 2:  round2(3)            ->  3
 // TEST 3:  round2(2.71828)      ->  2.72
-
+console.log("Stage 7-11");
 // ----- 11. percent -----
 // The % key on a calculator turns a number into its fraction of 100.
 // Write `percent(n)` that RETURNS n / 100.
 // your code here
 
+function percent(n) {
+  return n / 100;
+}
+console.log(percent(50));
+console.log(percent(200));
+console.log(percent(0));
+
 // console.log(percent(50));
 // TEST 1:  percent(50)   ->  0.5
 // TEST 2:  percent(200)  ->  2
 // TEST 3:  percent(0)    ->  0
-
+console.log("Stage 7-12");
 // ----- 12. clearToZero (the C button) -----
 // Pressing Clear resets the display. Write `clearToZero()` (no input) that
 // RETURNS the number 0 â€” the calculator's starting state.
 // your code here
+
+function clearToZero() {
+  return 0;
+}
+console.log(clearToZero());
+console.log(typeof clearToZero());
+console.log(clearToZero() + 5);
 
 // console.log(clearToZero());
 // TEST 1:  clearToZero()        ->  0
